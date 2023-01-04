@@ -6,9 +6,7 @@ db.add = function(k, v, id="b36e04dc-c473-44bf-ad87-0e49fc5060b5", bas="database
 	var myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
 
-	var raw = JSON.stringify({
-  		k: v
-	});
+	var raw = "{'" + k + "':'" + v + "'}"
 
 	var requestOptions = {
   		method: 'PUT',
