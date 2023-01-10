@@ -1,43 +1,39 @@
+//Include jQuery
 //define db
 var db = {};
  
 //define db functions
-db.add = function(k, v, id="b36e04dc-c473-44bf-ad87-0e49fc5060b5", bas="database"){
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
+db.add = function(k, v, bas="ok"){
+	var settings = {
+  "url": "https://getpantry.cloud/apiv1/pantry/2ffe12f3-0436-4ea7-8e4a-5549d02e603d/basket/" + bas,
+  "method": "PUT",
+  "timeout": 0,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "data": "{'" + k + "':'" + v + "'}"
+};
 
-	var raw = "{'" + k + "':'" + v + "'}"
-
-	var requestOptions = {
-  		method: 'PUT',
-  		headers: myHeaders,
-  		body: raw,
-  		redirect: 'follow'
-	};
-
-	
-	fetch("https://getpantry.cloud/apiv1/pantry/" + id + "/basket/" + bas + "/", requestOptions)
-  		.then(response => response.text())
-  		.then(result => console.log(result))
-  		.catch(error => console.log('error', error));
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
 }
 
 
 db.data; 
 
 
-db.get = function(id="b36e04dc-c473-44bf-ad87-0e49fc5060b5",bas="database"){
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
+db.get = function(bas="ok"){
+	var settings = {
+  "url": "https://getpantry.cloud/apiv1/pantry/2ffe12f3-0436-4ea7-8e4a-5549d02e603d/basket/" + bas,
+  "method": "GET",
+  "timeout": 0,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+};
 
-	var requestOptions = {
-		method: 'GET',
-		headers: myHeaders,
-		redirect: 'follow'
-	};
-	
-	fetch("https://getpantry.cloud/apiv1/pantry/" + id + "/basket/" + bas + "/", requestOptions)
-	  	.then(response => response.text())
-	  	.then(result => db.data = result)
-	  	.catch(error => console.log('error', error));
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
 }
