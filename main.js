@@ -1,39 +1,33 @@
-//Include jQuery
-//define db
-var db = {};
- 
-//define db functions
-db.add = function(k, v, bas="ok"){
-	var settings = {
-  "url": "https://getpantry.cloud/apiv1/pantry/2ffe12f3-0436-4ea7-8e4a-5549d02e603d/basket/" + bas,
-  "method": "PUT",
-  "timeout": 0,
-  "headers": {
-    "Content-Type": "application/json"
-  },
-  "data": "{'" + k + "':'" + v + "'}"
-};
+var db = {}
+db.data;
 
-$.ajax(settings).done(function (response) {
-  console.log(response);
-});
+function uptade(a, b, binId="63c2b481dfc68e59d58264cc"){
+	let req = new XMLHttpRequest();
+	
+	req.onreadystatechange = () => {
+  		if (req.readyState == XMLHttpRequest.DONE) {
+    		console.log(req.responseText);
+		  }
+	};
+	
+	req.open("PUT", "https://api.jsonbin.io/v3/b/" + binId, true);
+	req.setRequestHeader("Content-Type", "application/json");
+	req.setRequestHeader("X-Master-Key", "$2b$10$GQBXgX0qtSt9SMrLTUYkle8r3ine3QESBb8jK69jddclQRRmMufvS");
+	db.data[a] = b;
+	req.send(JSON.stringify(db.data));
 }
 
+function get(binId="63c2b481dfc68e59d58264cc", callback="console.log"){
+	let req = new XMLHttpRequest();
 
-db.data; 
+	req.onreadystatechange = () => {
+	  if (req.readyState == XMLHttpRequest.DONE) {
+	    eval(callback + "(" + req.responseText + ")")
+	    db.data = JSON.parse(req.responseText);
+	  }
+	};
 
-
-db.get = function(bas="ok"){
-	var settings = {
-  "url": "https://getpantry.cloud/apiv1/pantry/2ffe12f3-0436-4ea7-8e4a-5549d02e603d/basket/" + bas,
-  "method": "GET",
-  "timeout": 0,
-  "headers": {
-    "Content-Type": "application/json"
-  },
-};
-
-$.ajax(settings).done(function (response) {
-  console.log(response);
-});
+	req.open("GET", "https://api.jsonbin.io/v3/b/" + binId + "?meta=false", true);
+	req.setRequestHeader("X-Master-Key", "$2b$10$GQBXgX0qtSt9SMrLTUYkle8r3ine3QESBb8jK69jddclQRRmMufvS");
+	req.send();
 }
